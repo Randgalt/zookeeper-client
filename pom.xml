@@ -7,6 +7,19 @@
     <artifactId>zookeeper</artifactId>
     <version>0.1-SNAPSHOT</version>
 
+    <distributionManagement>
+        <repository>
+            <id>proofpoint</id>
+            <name>Proofpoint Releases</name>
+            <url>http://maven-tmphost.app.proofpoint.com:8082/nexus/content/repositories/proofpoint-eng</url>
+        </repository>
+        <snapshotRepository>
+            <id>proofpoint-snapshots</id>
+            <name>Proofpoint Snapshots</name>
+            <url>http://maven-tmphost.app.proofpoint.com:8082/nexus/content/repositories/proofpoint-eng-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <dependencies>
         <dependency>
             <groupId>com.proofpoint.platform</groupId>
