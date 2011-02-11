@@ -7,6 +7,11 @@
     <artifactId>zookeeper</artifactId>
     <version>0.1-SNAPSHOT</version>
 
+    <scm>
+        <connection>scm:git:git://yorktown.us.proofpoint.com/zookeeper.git</connection>
+        <developerConnection>scm:git:ssh://git@yorktown.us.proofpoint.com/zookeeper.git</developerConnection>
+    </scm>
+
     <distributionManagement>
         <repository>
             <id>proofpoint</id>
