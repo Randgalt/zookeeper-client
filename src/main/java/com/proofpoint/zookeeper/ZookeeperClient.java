@@ -790,6 +790,7 @@ public class ZookeeperClient implements ZookeeperClientHelper
                         }
 
                         case Expired: {
+                            stateRef.set(State.ZOMBIE_MODE);
                             errorConnectionLost();
                             break;
                         }
