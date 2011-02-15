@@ -49,14 +49,19 @@ public interface ZookeeperClientCreator
 
     /**
      * If {@link #waitForStart(org.apache.zookeeper.ZooKeeper, org.apache.zookeeper.Watcher)} fails with the status
-     * {@link ConnectionStatus#INVALID_SESSION}, you can call this method. Once called, you should re-call {@link #create()}.
-     * It will initiate a connection with a new session.
+     * {@link ConnectionStatus#INVALID_SESSION}, you can call this method.
      *
      * @return instance
      * @throws Exception errors
      */
     public ZooKeeper recreateWithNewSession()
             throws Exception;
+
+    /**
+     * Reset the creator so that {@link #waitForStart(org.apache.zookeeper.ZooKeeper, org.apache.zookeeper.Watcher)}
+     * is in a connecting state once more
+     */
+    public void resetWaitForStart();
 
     /**
      * Return the retry policy to use for connection losses

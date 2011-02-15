@@ -197,6 +197,31 @@ public class TestZookeeperClient
     }
 
     @Test
+    public void testDisconnectedEvent()
+            throws Exception
+    {
+        ZooKeeper mockedClient = mock(ZooKeeper.class);
+        ZookeeperClientConfig config = new ZookeeperClientConfig();
+        config.setConnectionTimeoutInMs(1000);
+        DefaultZookeeperClientCreator clientCreator = new DefaultZookeeperClientCreator(config);
+        Watcher watcher = clientCreator.newWatcher();
+        WatchedEvent connectEvent = new WatchedEvent(Watcher.Event.EventType.None, Watcher.Event.KeeperState.SyncConnected, "/");
+        WatchedEvent nodeEvent = new WatchedEvent(Watcher.Event.EventType.NodeCreated, Watcher.Event.KeeperState.SyncConnected, "/");
+        watcher.process(connectEvent);
+        watcher.process(nodeEvent);
+
+        assertEquals(clientCreator.waitForStart(mockedClient, mock(Watcher.class)), ZookeeperClientCreator.ConnectionStatus.SUCCESS);
+
+        clientCreator.resetWaitForStart();
+        assertEquals(clientCreator.waitForStart(mockedClient, mock(Watcher.class)), ZookeeperClientCreator.ConnectionStatus.FAILED);
+
+        clientCreator.resetWaitForStart();
+        watcher.process(connectEvent);
+        watcher.process(nodeEvent);
+        assertEquals(clientCreator.waitForStart(mockedClient, mock(Watcher.class)), ZookeeperClientCreator.ConnectionStatus.SUCCESS);
+    }
+
+    @Test
     public void testCreationEvents()
             throws Exception
     {

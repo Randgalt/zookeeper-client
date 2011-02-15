@@ -782,11 +782,21 @@ public class ZookeeperClient implements ZookeeperClientHelper
                 @Override
                 public void process(WatchedEvent event)
                 {
-                    if ((event.getState() == Event.KeeperState.Disconnected) || (event.getState() == Event.KeeperState.Expired)) {
-                        errorConnectionLost();
-                    }
-                    else {
-                        eventQueue.postEvent(new ZookeeperEvent(getTypeFromWatched(event), 0, event.getPath(), null, null, null, null, null, null));
+                    switch ( event.getState() ) {
+                        case Disconnected: {
+                            creator.resetWaitForStart();
+                            break;
+                        }
+
+                        case Expired: {
+                            errorConnectionLost();
+                            break;
+                        }
+
+                        default: {
+                            eventQueue.postEvent(new ZookeeperEvent(getTypeFromWatched(event), 0, event.getPath(), null, null, null, null, null, null));
+                            break;
+                        }
                     }
                 }
             };
@@ -808,6 +818,7 @@ public class ZookeeperClient implements ZookeeperClientHelper
                         }
                         else {
                             ++invalidSessionCount;
+                            client.close();
                             client = creator.recreateWithNewSession();
                             done = false;
                         }

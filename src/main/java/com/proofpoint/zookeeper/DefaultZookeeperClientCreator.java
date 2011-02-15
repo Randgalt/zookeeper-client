@@ -58,9 +58,6 @@ public class DefaultZookeeperClientCreator
             throws Exception
     {
         forceUseNewSession = true;
-        startupLatchRef.set(new CountDownLatch(1));
-        connectionStatus.set(null);
-        events.clear();
 
         return create();
     }
@@ -70,6 +67,8 @@ public class DefaultZookeeperClientCreator
             throws Exception
     {
         ZooKeeper keeper;
+
+        resetWaitForStart();
 
         //noinspection LoopStatementThatDoesntLoop
         do {
@@ -88,6 +87,14 @@ public class DefaultZookeeperClientCreator
         } while (false);
 
         return keeper;
+    }
+
+    @Override
+    public void resetWaitForStart()
+    {
+        startupLatchRef.set(new CountDownLatch(1));
+        connectionStatus.set(ConnectionStatus.FAILED);
+        events.clear();
     }
 
     private String getSessionStorePath()
