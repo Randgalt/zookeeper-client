@@ -785,6 +785,7 @@ public class ZookeeperClient implements ZookeeperClientHelper
                     switch ( event.getState() ) {
                         case Disconnected: {
                             creator.resetWaitForStart();
+                            stateRef.set(State.WAITING_FOR_STARTUP);
                             break;
                         }
 
