@@ -150,12 +150,10 @@ class ConnectionState implements Watcher
     public void process(WatchedEvent event)
     {
         boolean     localIsConnected;
-        boolean     wasConnected;
         synchronized(this) {
             boolean     needsNotify = false;
-            wasConnected = isConnected;
-            
             if (event.getType() == Watcher.Event.EventType.None) {
+                boolean     wasConnected = isConnected;
                 isConnected = (event.getState() == Event.KeeperState.SyncConnected);
                 needsNotify = isConnected && !wasConnected;
 
@@ -178,7 +176,7 @@ class ConnectionState implements Watcher
                     }
                     catch ( InterruptedException e ) {
                         Thread.currentThread().interrupt();
-                        // TODO
+                        log.error(e, "Interrupted trying to close Zookeeper. Ignoring at this level.");
                     }
                     zookeeper = null;
                 }
@@ -191,9 +189,6 @@ class ConnectionState implements Watcher
 
         if ( localIsConnected ) {
             client.postEvent(new ZookeeperEvent(getTypeFromWatched(event), 0, event.getPath(), null, null, null, null, null, null));
-        }
-        else if ( wasConnected ) {
-            client.errorConnectionLost();
         }
     }
 
