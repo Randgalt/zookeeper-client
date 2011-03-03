@@ -70,6 +70,16 @@ public class ZookeeperTestServerInstance
     }
 
     /**
+     * Return the port being used
+     *
+     * @return port
+     */
+    public int getPort()
+    {
+        return port;
+    }
+
+    /**
      * Create the server using the given port
      *
      * @param port the port

@@ -26,8 +26,7 @@ public class TestChildrenSync
         Map<String, String> props = new HashMap<String, String>();
         props.put("zookeeper.connection-string", server.getConnectString());
         ZookeeperClientConfig config = new ConfigurationFactory(props).build(ZookeeperClientConfig.class);
-        client = new ZookeeperClient(new DefaultZookeeperClientCreator(config));
-        client.start();
+        client = new ZookeeperClient(config);
     }
 
     @AfterMethod

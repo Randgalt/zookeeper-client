@@ -1,6 +1,7 @@
 package com.proofpoint.zookeeper;
 
 import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.data.Stat;
 
 import java.util.List;
@@ -138,4 +139,12 @@ public interface ZookeeperClientHelper
      * @return new instance with the data version set
      */
     ZookeeperClientHelper dataVersion(int version);
+
+    /**
+     * Builder-style method that returns a view of the client that will use the given watcher for the next watchable call
+     *
+     * @param watcher the watcher
+     * @return new instance with the watcher set
+     */
+    ZookeeperClientHelper usingWatcher(Watcher watcher);
 }

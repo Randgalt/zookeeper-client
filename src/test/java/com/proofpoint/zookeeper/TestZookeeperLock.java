@@ -74,10 +74,8 @@ public class TestZookeeperLock
                 return 60000;
             }
         };
-        ZookeeperClient client1 = new ZookeeperClient(new DefaultZookeeperClientCreator(config));
-        ZookeeperClient client2 = new ZookeeperClient(new DefaultZookeeperClientCreator(config));
-        client1.start();
-        client2.start();
+        ZookeeperClient client1 = new ZookeeperClient(config);
+        ZookeeperClient client2 = new ZookeeperClient(config);
 
         final CrossProcessLock lock1 = client1.newLock(lockPath);
         final CrossProcessLock lock2 = client2.newLock(lockPath);
@@ -148,10 +146,8 @@ public class TestZookeeperLock
                 return 60000;
             }
         };
-        ZookeeperClient client1 = new ZookeeperClient(new DefaultZookeeperClientCreator(config));
-        ZookeeperClient client2 = new ZookeeperClient(new DefaultZookeeperClientCreator(config));
-        client1.start();
-        client2.start();
+        ZookeeperClient client1 = new ZookeeperClient(config);
+        ZookeeperClient client2 = new ZookeeperClient(config);
 
         CrossProcessLock lock1 = client1.newLock(lockPath);
         CrossProcessLock lock2 = client2.newLock(lockPath);
@@ -201,8 +197,7 @@ public class TestZookeeperLock
                 return 60000;
             }
         };
-        final ZookeeperClient client = new ZookeeperClient(new DefaultZookeeperClientCreator(config));
-        client.start();
+        final ZookeeperClient client = new ZookeeperClient(config);
 
         final AtomicInteger count = new AtomicInteger();
 
@@ -290,10 +285,8 @@ public class TestZookeeperLock
                 return 60000;
             }
         };
-        ZookeeperClient client1 = new ZookeeperClient(new DefaultZookeeperClientCreator(config));
-        ZookeeperClient client2 = new ZookeeperClient(new DefaultZookeeperClientCreator(config));
-        client1.start();
-        client2.start();
+        ZookeeperClient client1 = new ZookeeperClient(config);
+        ZookeeperClient client2 = new ZookeeperClient(config);
 
         String path = "/lock";
         CrossProcessLock lock1 = client1.newLock(path);
@@ -344,8 +337,7 @@ public class TestZookeeperLock
                 return 60000;
             }
         };
-        ZookeeperClient client = new ZookeeperClient(new DefaultZookeeperClientCreator(config));
-        client.start();
+        ZookeeperClient client = new ZookeeperClient(config);
 
         String path = "/lock";
         CrossProcessLock lock = client.newLock(path);
@@ -393,8 +385,7 @@ public class TestZookeeperLock
                 return 60000;
             }
         };
-        ZookeeperClient client = new ZookeeperClient(new DefaultZookeeperClientCreator(config));
-        client.start();
+        ZookeeperClient client = new ZookeeperClient(config);
 
         String path = "/lock";
         CrossProcessLock lock = client.newLock(path);

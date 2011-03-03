@@ -62,8 +62,7 @@ public class TestZookeeperUtils
                 return 60000;
             }
         };
-        ZookeeperClient client = new ZookeeperClient(new DefaultZookeeperClientCreator(config));
-        client.start();
+        ZookeeperClient client = new ZookeeperClient(config);
 
         String path = "/";
         client.mkdirs(path);
@@ -107,8 +106,7 @@ public class TestZookeeperUtils
                 return 60000;
             }
         };
-        ZookeeperClient client = new ZookeeperClient(new DefaultZookeeperClientCreator(config));
-        client.start();
+        ZookeeperClient client = new ZookeeperClient(config);
 
         String path = "/a/b/c";
         client.mkdirs(path);
@@ -153,8 +151,7 @@ public class TestZookeeperUtils
                 return 60000;
             }
         };
-        ZookeeperClient client = new ZookeeperClient(new DefaultZookeeperClientCreator(config));
-        client.start();
+        ZookeeperClient client = new ZookeeperClient(config);
 
         String path = "/hello";
         client.mkdirs(path);
@@ -199,8 +196,7 @@ public class TestZookeeperUtils
                 return 60000;
             }
         };
-        ZookeeperClient client = new ZookeeperClient(new DefaultZookeeperClientCreator(config));
-        client.start();
+        ZookeeperClient client = new ZookeeperClient(config);
 
         String path = "hello";
         try {
@@ -252,8 +248,7 @@ public class TestZookeeperUtils
                 return 60000;
             }
         };
-        ZookeeperClient client = new ZookeeperClient(new DefaultZookeeperClientCreator(config));
-        client.start();
+        ZookeeperClient client = new ZookeeperClient(config);
 
         String path = "/a//b";
         try {
