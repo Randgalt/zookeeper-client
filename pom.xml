@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.proofpoint.zookeeper</groupId>
     <artifactId>zookeeper</artifactId>
-    <version>0.4</version>
+    <version>0.5-SNAPSHOT</version>
 
     <scm>
         <connection>scm:git:git://yorktown.us.proofpoint.com/zookeeper.git</connection>
