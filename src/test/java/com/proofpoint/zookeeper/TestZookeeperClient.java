@@ -170,7 +170,7 @@ public class TestZookeeperClient
             }
         });
 
-        testServer.close(); // next client call cause a retry
+        testServer.close(); // next client call causes a retry
 
         try {
             client.exists("/");
@@ -185,15 +185,13 @@ public class TestZookeeperClient
         latch.set(new CountDownLatch(1));
         retryCount.set(0);
 
-        testServer.close();
-
         // now try with a background call that should succeed
 
         testServer = new ZookeeperTestServerInstance();
         zookeeperClientConfig.setConnectionString(testServer.getConnectString());
 
         client.inBackground("").exists("/");
-        assertEquals(retryCount.get(), 1);
+        assertEquals(retryCount.get(), 0);
         assertEquals(latch.get().getCount(), 1);
 
         client.closeForShutdown();

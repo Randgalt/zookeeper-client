@@ -90,6 +90,7 @@ class RetryHandler<T>
                 else {
                     log.info("Connection lost on retries for call %s", proc.getClass().getName());
                     client.errorConnectionLost();
+                    client.getState().close();
                 }
             }
             catch ( Exception e ) {
