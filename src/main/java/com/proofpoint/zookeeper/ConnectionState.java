@@ -27,6 +27,9 @@ class ConnectionState implements Watcher
     // guarded by synchronization
     private boolean        isZombie = false;
 
+    // guarded by synchronization
+    private long           connectionStartTicks;
+
     ConnectionState(ZookeeperClient client, ZookeeperClientConfig config)
     {
         this.client = client;
@@ -55,8 +58,14 @@ class ConnectionState implements Watcher
             }
         }
         isConnected = false;
-        zookeeper = null;
+        clear();
         notifyAll();
+    }
+
+    private synchronized void clear()
+    {
+        zookeeper = null;
+        connectionStartTicks = 0;
     }
 
     synchronized ZooKeeper ensureCreated()
@@ -79,7 +88,18 @@ class ConnectionState implements Watcher
 
         boolean     needsWriteSessionId = false;
         if ( !isConnected ) {
-            wait(config.getConnectionTimeoutInMs());
+            long waitTicks;
+            if ( connectionStartTicks == 0 ) {
+                waitTicks = config.getConnectionTimeoutInMs();
+                connectionStartTicks = System.currentTimeMillis();
+            }
+            else {
+                long        elapsed = System.currentTimeMillis() - connectionStartTicks;
+                waitTicks = config.getConnectionTimeoutInMs() - elapsed;
+            }
+            if ( waitTicks > 0 ) {
+                wait(waitTicks);
+            }
             needsWriteSessionId = isConnected;
         }
 
@@ -178,7 +198,7 @@ class ConnectionState implements Watcher
                         Thread.currentThread().interrupt();
                         log.error(e, "Interrupted trying to close Zookeeper. Ignoring at this level.");
                     }
-                    zookeeper = null;
+                    clear();
                 }
 
                 notifyAll();

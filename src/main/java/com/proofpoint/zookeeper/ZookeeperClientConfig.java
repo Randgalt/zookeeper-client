@@ -3,6 +3,9 @@ package com.proofpoint.zookeeper;
 import com.proofpoint.configuration.Config;
 import com.proofpoint.configuration.ConfigDescription;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+
 public class ZookeeperClientConfig
 {
     private String connectionString;
@@ -12,6 +15,7 @@ public class ZookeeperClientConfig
     private int connectionLossSleepInMs = 1000;
     private String sessionStorePath;
 
+    @Null
     public String getSessionStorePath()
     {
         return sessionStorePath;
@@ -24,6 +28,7 @@ public class ZookeeperClientConfig
         this.sessionStorePath = sessionStorePath;
     }
 
+    @NotNull
     public String getConnectionString()
     {
         return connectionString;

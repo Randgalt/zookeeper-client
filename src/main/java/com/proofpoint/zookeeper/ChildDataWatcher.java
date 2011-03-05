@@ -7,6 +7,8 @@ import com.proofpoint.log.Logger;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.data.Stat;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Executor;
@@ -14,6 +16,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.google.common.collect.Sets.difference;
 
+/**
+ * Merchanism for watching changes on a path
+ */
 public class ChildDataWatcher implements EventQueue.EventListener<ZookeeperEvent>
 {
     private final static Logger log = Logger.get(ChildDataWatcher.class);
@@ -31,6 +36,12 @@ public class ChildDataWatcher implements EventQueue.EventListener<ZookeeperEvent
 
     private final Stat SENTINEL = new Stat();
 
+    /**
+     * @param client the client
+     * @param path path to watch
+     * @param listener event vector
+     * @param executor thread to execute listener in
+     */
     public ChildDataWatcher(ZookeeperClient client, String path, ChildDataListener listener, Executor executor)
     {
         this.path = path;
@@ -39,6 +50,7 @@ public class ChildDataWatcher implements EventQueue.EventListener<ZookeeperEvent
         this.executor = executor;
     }
 
+    @PostConstruct
     public void start()
             throws Exception
     {
@@ -49,6 +61,7 @@ public class ChildDataWatcher implements EventQueue.EventListener<ZookeeperEvent
         }
     }
 
+    @PreDestroy
     public void stop()
     {
         isStarted.set(false);

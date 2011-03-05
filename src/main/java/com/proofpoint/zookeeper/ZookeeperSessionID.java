@@ -2,6 +2,9 @@ package com.proofpoint.zookeeper;
 
 import java.util.Arrays;
 
+/**
+ * Wrapper around a ZK session
+ */
 public class ZookeeperSessionID
 {
     private long sessionId;

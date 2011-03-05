@@ -24,7 +24,7 @@ public class ZookeeperUtils
      * @throws InterruptedException thread interruption
      * @throws org.apache.zookeeper.KeeperException zookeeper errors
      */
-    static List<String> getSortedChildren(ZooKeeper zookeeper, String path)
+    public static List<String> getSortedChildren(ZooKeeper zookeeper, String path)
             throws InterruptedException, KeeperException
     {
         List<String> children = zookeeper.getChildren(path, false);

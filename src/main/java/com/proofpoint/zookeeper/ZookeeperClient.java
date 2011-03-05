@@ -4,6 +4,7 @@ import com.google.common.base.Predicate;
 import com.google.inject.Inject;
 import com.proofpoint.concurrent.events.EventQueue;
 import com.proofpoint.crossprocess.CrossProcessLock;
+import com.proofpoint.crossprocess.CrossProcessLockImp;
 import org.apache.hadoop.io.retry.RetryPolicies;
 import org.apache.hadoop.io.retry.RetryPolicy;
 import org.apache.zookeeper.AsyncCallback;
@@ -663,7 +664,7 @@ public class ZookeeperClient implements ZookeeperClientHelper
         return state;
     }
 
-    CrossProcessLock newLock(final String path)
+    public CrossProcessLock newLock(final String path)
             throws Exception
     {
         return new CrossProcessLock()
