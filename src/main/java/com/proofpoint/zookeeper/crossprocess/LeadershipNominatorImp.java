@@ -1,4 +1,4 @@
-package com.proofpoint.crossprocess;
+package com.proofpoint.zookeeper.crossprocess;
 
 import com.proofpoint.log.Logger;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;

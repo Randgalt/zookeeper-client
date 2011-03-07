@@ -1,6 +1,6 @@
 package com.proofpoint.zookeeper;
 
-import com.proofpoint.crossprocess.CrossProcessLock;
+import com.proofpoint.zookeeper.crossprocess.CrossProcessLock;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;

@@ -1,4 +1,4 @@
-package com.proofpoint.concurrent.events;
+package com.proofpoint.zookeeper.events;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.proofpoint.log.Logger;

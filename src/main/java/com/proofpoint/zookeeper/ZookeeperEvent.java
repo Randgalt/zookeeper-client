@@ -1,6 +1,6 @@
 package com.proofpoint.zookeeper;
 
-import com.proofpoint.concurrent.events.EventQueue;
+import com.proofpoint.zookeeper.events.EventQueue;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.data.Stat;
 

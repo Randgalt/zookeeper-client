@@ -1,6 +1,5 @@
-package com.proofpoint.io;
+package com.proofpoint.zookeeper.io;
 
-import com.google.common.io.Files;
 import com.google.inject.Inject;
 import com.proofpoint.log.Logger;
 import org.apache.commons.io.FileUtils;

@@ -1,4 +1,4 @@
-package com.proofpoint.concurrent.events;
+package com.proofpoint.zookeeper.events;
 
 /**
  * An adapter for events that has default behavior

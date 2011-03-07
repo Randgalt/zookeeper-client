@@ -1,4 +1,4 @@
-package com.proofpoint.io;
+package com.proofpoint.zookeeper.io;
 
 import java.io.DataOutputStream;
 import java.io.IOException;

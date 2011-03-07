@@ -2,7 +2,7 @@ package com.proofpoint.zookeeper;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps;
-import com.proofpoint.concurrent.events.EventQueue;
+import com.proofpoint.zookeeper.events.EventQueue;
 import com.proofpoint.configuration.ConfigurationFactory;
 import org.apache.hadoop.io.retry.RetryPolicy;
 import org.apache.zookeeper.KeeperException;

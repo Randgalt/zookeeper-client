@@ -1,4 +1,4 @@
-package com.proofpoint.crossprocess;
+package com.proofpoint.zookeeper.crossprocess;
 
 import com.proofpoint.zookeeper.ZookeeperUtils;
 import org.apache.zookeeper.CreateMode;

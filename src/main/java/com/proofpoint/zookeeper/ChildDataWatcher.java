@@ -2,7 +2,7 @@ package com.proofpoint.zookeeper;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.proofpoint.concurrent.events.EventQueue;
+import com.proofpoint.zookeeper.events.EventQueue;
 import com.proofpoint.log.Logger;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.data.Stat;
@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static com.google.common.collect.Sets.difference;
 
 /**
- * Merchanism for watching changes on a path
+ * Mechanism for watching changes on a path
  */
 public class ChildDataWatcher implements EventQueue.EventListener<ZookeeperEvent>
 {

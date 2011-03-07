@@ -1,4 +1,4 @@
-package com.proofpoint.crossprocess;
+package com.proofpoint.zookeeper.crossprocess;
 
 /**
  * Callback interface

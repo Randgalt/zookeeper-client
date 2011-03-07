@@ -1,4 +1,4 @@
-package com.proofpoint.crossprocess;
+package com.proofpoint.zookeeper.crossprocess;
 
 import com.google.inject.Inject;
 import com.proofpoint.zookeeper.ZookeeperClient;

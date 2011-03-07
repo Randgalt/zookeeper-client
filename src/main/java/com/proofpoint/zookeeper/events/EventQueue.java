@@ -1,4 +1,4 @@
-package com.proofpoint.concurrent.events;
+package com.proofpoint.zookeeper.events;
 
 import com.proofpoint.log.Logger;
 import com.google.common.base.Predicate;

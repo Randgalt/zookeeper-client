@@ -1,4 +1,4 @@
-package com.proofpoint.concurrent.events;
+package com.proofpoint.zookeeper.events;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -111,7 +111,7 @@ public class TestQuantizedExecutor
                 }
             }
         };
-        QuantizedExecutor       executor = new QuantizedExecutor(1, task);
+        QuantizedExecutor executor = new QuantizedExecutor(1, task);
         executor.makeRunnable();
         executor.makeRunnable();
         executor.makeRunnable();

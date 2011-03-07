@@ -1,4 +1,4 @@
-package com.proofpoint.concurrent.events;
+package com.proofpoint.zookeeper.events;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -43,7 +43,7 @@ public class TestEventQueue
     {
         EventQueue<MyEvent>     queue = new EventQueue<MyEvent>(0);
         final CountDownLatch    latch = new CountDownLatch(1);
-        queue.addListener(new EventQueue.EventListener<com.proofpoint.concurrent.events.TestEventQueue.MyEvent>()
+        queue.addListener(new EventQueue.EventListener<TestEventQueue.MyEvent>()
         {
             @Override
             public void eventProcessed(MyEvent event) throws Exception
@@ -63,7 +63,7 @@ public class TestEventQueue
         final AtomicInteger     count = new AtomicInteger(0);
         final CountDownLatch    latch = new CountDownLatch(1);
         EventQueue<MyEvent>     queue = new EventQueue<MyEvent>(1000);
-        queue.addListener(new EventQueue.EventListener<com.proofpoint.concurrent.events.TestEventQueue.MyEvent>()
+        queue.addListener(new EventQueue.EventListener<TestEventQueue.MyEvent>()
         {
             @Override
             public void eventProcessed(MyEvent event) throws Exception
@@ -90,7 +90,7 @@ public class TestEventQueue
     {
         final Semaphore         count = new Semaphore(0);
         EventQueue<MyEvent>     queue = new EventQueue<MyEvent>(10000000);
-        queue.addListener(new EventQueue.EventListener<com.proofpoint.concurrent.events.TestEventQueue.MyEvent>()
+        queue.addListener(new EventQueue.EventListener<TestEventQueue.MyEvent>()
         {
             @Override
             public void eventProcessed(MyEvent event) throws Exception
@@ -113,7 +113,7 @@ public class TestEventQueue
     {
         final Semaphore         count = new Semaphore(0);
         EventQueue<MyEvent>     queue = new EventQueue<MyEvent>(100);
-        queue.addListener(new EventQueue.EventListener<com.proofpoint.concurrent.events.TestEventQueue.MyEvent>()
+        queue.addListener(new EventQueue.EventListener<TestEventQueue.MyEvent>()
         {
             @Override
             public void eventProcessed(MyEvent event) throws Exception
@@ -141,7 +141,7 @@ public class TestEventQueue
         final AtomicLong        processedTime = new AtomicLong(0);
         long                    startTime = System.currentTimeMillis();
         final CountDownLatch    latch = new CountDownLatch(1);
-        queue.addListener(new EventQueue.EventListener<com.proofpoint.concurrent.events.TestEventQueue.MyEvent>()
+        queue.addListener(new EventQueue.EventListener<TestEventQueue.MyEvent>()
         {
             @Override
             public void eventProcessed(MyEvent event) throws Exception
@@ -163,7 +163,7 @@ public class TestEventQueue
 
         final Set<MyEvent>      eventSet = Collections.newSetFromMap(new ConcurrentHashMap<MyEvent, Boolean>());
         final CountDownLatch    latch = new CountDownLatch(1);
-        queue.addListener(new EventQueue.EventListener<com.proofpoint.concurrent.events.TestEventQueue.MyEvent>()
+        queue.addListener(new EventQueue.EventListener<TestEventQueue.MyEvent>()
         {
             @Override
             public void eventProcessed(MyEvent event) throws Exception
