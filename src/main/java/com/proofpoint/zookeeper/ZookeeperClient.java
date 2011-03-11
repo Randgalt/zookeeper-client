@@ -577,6 +577,9 @@ public class ZookeeperClient implements ZookeeperClientHelper
                         throws Exception
                 {
                     client.delete(path, dataVersion);
+
+                    // watchers aren't necessarily called on local deletes
+                    eventQueue.postEvent(new ZookeeperEvent(ZookeeperEvent.Type.DELETE, KeeperException.Code.OK.intValue(), path, context, null, null, null, null, key));
                     return null;
                 }
             };

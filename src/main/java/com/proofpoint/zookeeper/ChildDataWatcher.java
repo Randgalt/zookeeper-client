@@ -5,6 +5,8 @@ import com.google.common.collect.Sets;
 import com.proofpoint.zookeeper.events.EventQueue;
 import com.proofpoint.log.Logger;
 import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.WatchedEvent;
+import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.data.Stat;
 
 import javax.annotation.PostConstruct;
@@ -19,7 +21,7 @@ import static com.google.common.collect.Sets.difference;
 /**
  * Mechanism for watching changes on a path
  */
-public class ChildDataWatcher implements EventQueue.EventListener<ZookeeperEvent>
+public class ChildDataWatcher implements EventQueue.EventListener<ZookeeperEvent>, Watcher
 {
     private final static Logger log = Logger.get(ChildDataWatcher.class);
 
@@ -57,7 +59,7 @@ public class ChildDataWatcher implements EventQueue.EventListener<ZookeeperEvent
         if (isStarted.compareAndSet(false, true)) {
             log.debug("start(): getting children: %s", path);
             client.addListener(this, path, backgroundKey);
-            client.watched().inBackground(backgroundKey).getChildren(path);
+            client.usingWatcher(this).inBackground(backgroundKey).getChildren(path);
         }
     }
 
@@ -69,14 +71,45 @@ public class ChildDataWatcher implements EventQueue.EventListener<ZookeeperEvent
     }
 
     @Override
+    public void process(WatchedEvent event)
+    {
+        try {
+            switch ( event.getType() ) {
+                case NodeChildrenChanged: {
+                    log.debug("Getting children: %s", path);
+                    client.usingWatcher(this).inBackground(backgroundKey).getChildren(path);
+                    break;
+                }
+
+                case NodeDataChanged: {
+                    String child = event.getPath().substring(path.length() + 1);
+
+                    log.debug("Getting data: %s", event.getPath());
+                    client.usingWatcher(this).inBackground(backgroundKey).withContext(child).getData(event.getPath());
+                    break;
+                }
+            }
+        }
+        catch ( Exception e ) {
+            log.error(e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public void eventProcessed(ZookeeperEvent event)
             throws Exception
     {
         if (isOurEvent(event)) {
             switch (event.getType()) {
+                case DELETE: {
+                    processDelete(event);
+                    break;
+                }
+
                 case WATCHED_NODE_CHILDREN_CHANGED: {
                     log.debug("Getting children: %s", path);
-                    client.watched().inBackground(backgroundKey).getChildren(path);
+                    client.usingWatcher(this).inBackground(backgroundKey).getChildren(path);
                     break;
                 }
 
@@ -84,7 +117,7 @@ public class ChildDataWatcher implements EventQueue.EventListener<ZookeeperEvent
                     String child = event.getPath().substring(path.length() + 1);
 
                     log.debug("Getting data: %s", event.getPath());
-                    client.watched().inBackground(backgroundKey).withContext(child).getData(event.getPath());
+                    client.usingWatcher(this).inBackground(backgroundKey).withContext(child).getData(event.getPath());
                     break;
                 }
 
@@ -101,17 +134,21 @@ public class ChildDataWatcher implements EventQueue.EventListener<ZookeeperEvent
         }
     }
 
-    /**
-     * If a node is removed locally, the ChildDataWatcher will not get notified via ZooKeeper, thus
-     * creating a memory leak. Call this method to remove the node.
-     *
-     * @param child node to remove
-     */
-    public void removeLocal(String child)
+    private void processDelete(ZookeeperEvent event)
     {
-        synchronized (elements) {
-            elements.remove(child);
+        String  deletePath = event.getPath();
+        if ( deletePath.startsWith(path) ) {
+            deletePath = deletePath.substring(path.length());
+            if ( deletePath.startsWith("/") ) {
+                deletePath = deletePath.substring(1);
+            }
         }
+
+        log.debug("Deleting: %s", deletePath);
+        synchronized (elements) {
+            elements.remove(deletePath);
+        }
+        notifyRemoved(deletePath);
     }
 
     private void processGetData(ZookeeperEvent event)
@@ -152,7 +189,7 @@ public class ChildDataWatcher implements EventQueue.EventListener<ZookeeperEvent
                             SENTINEL); // mark this child as tentative -- notifications will be sent once we get the data
 
                     log.debug("Getting data: %s", fullPath);
-                    client.watched().inBackground(backgroundKey).withContext(child).getData(fullPath);
+                    client.usingWatcher(this).inBackground(backgroundKey).withContext(child).getData(fullPath);
                 }
 
                 // removed
